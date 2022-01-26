@@ -1,0 +1,647 @@
+<html>
+  <head><title>A Calculator for Moodle - By: Mr. Pellegrino</title>
+    <script>
+
+      function openSource()
+      {
+	  var f='';
+	  var c='red';
+	  var s=(11-form1.functionresolution.value)/12;
+	  var f_str='';
+	  var func=form1.functiontograph.value;
+
+
+
+	  if( form1.functiontograph.value =='' )
+	  {
+	      alert( "You haven't defined a function!");
+	      return;
+	  }
+
+	  func=func.replace(/abs/g, "Math.abs" );
+	  func=func.replace(/sin/g, "Math.sin" );
+	  func=func.replace(/cos/g, "Math.cos" );
+	  func=func.replace(/tan/g, "Math.tan" );
+	  func=func.replace(/sqrt/g, "Math.sqrt" );
+	  func=func.replace(/log/g, "(1/Math.log(10))*Math.log" );
+	  func=func.replace(/ln/g, "Math.log" );
+	  
+	 // func=func.replace(/sqrt/g, "Math.sqrt" );
+	  func=func.replace(/0x/g, "0*x" );	  
+	  func=func.replace(/1x/g, "1*x" );
+	  func=func.replace(/2x/g, "2*x" );
+	  func=func.replace(/3x/g, "3*x" );
+	  func=func.replace(/4x/g, "4*x" );
+	  func=func.replace(/5x/g, "5*x" );
+	  func=func.replace(/6x/g, "6*x" );
+	  func=func.replace(/7x/g, "7*x" );
+	  func=func.replace(/8x/g, "8*x" );
+	  func=func.replace(/9x/g, "9*x" );
+
+	  func=func.replace(/0pi/g, "0*pi" );
+	  func=func.replace(/1pi/g, "1*pi" );
+	  func=func.replace(/2pi/g, "2*pi" );
+	  func=func.replace(/3pi/g, "3*pi" );
+	  func=func.replace(/4pi/g, "4*pi" );
+	  func=func.replace(/5pi/g, "5*pi" );
+	  func=func.replace(/6pi/g, "6*pi" );
+	  func=func.replace(/7pi/g, "7*pi" );
+	  func=func.replace(/8pi/g, "8*pi" );
+	  func=func.replace(/9pi/g, "9*pi" );
+
+	  func=func.replace(/0e/g, "0*e" );
+	  func=func.replace(/1e/g, "1*e" );
+	  func=func.replace(/2e/g, "2*e" );
+	  func=func.replace(/3e/g, "3*e" );
+	  func=func.replace(/4e/g, "4*e" );
+	  func=func.replace(/5e/g, "5*e" );
+	  func=func.replace(/6e/g, "6*e" );
+	  func=func.replace(/7e/g, "7*e" );
+	  func=func.replace(/8e/g, "8*e" );
+	  func=func.replace(/9e/g, "9*e" );
+
+	  
+	  var l=func.length;
+	  
+	  for( L=0; L<l; L++ )
+	  {
+	      func=func.replace( '^', '**' );
+	      func=func.replace( 'e', 'Math.E' );
+	      func=func.replace( 'pi','Math.PI');
+	      	  func=func.replace(/0x/g, "0*x" );	  
+
+	      
+	  }
+	      
+	  f_str+='return ';
+	  f_str+=func;
+	      
+	  var myFunc = new Function( 'x', f_str );
+
+	  f+='<!-- GRAPH OF: y='; 
+	  f+=form1.functiontograph.value;
+	  f+=' -->\n';
+	  for( L=-12; L<=12+s; L=L+s )
+	  {
+	      x1=Math.round((15*L+180)*100)/100;
+	      x2=Math.round((15*(L+s)+180)*100)/100;
+	      y=myFunc(L);
+	      y1=Math.round((-15*y+180)*100)/100;
+	      y=myFunc(L+s);		 
+	      y2=Math.round((-15*y+180)*100)/100;
+	      if( ((y1>360)&&(y2>360)) || ((y1<0)&&(y2<0)))
+	      {
+		  // Do Nothing if both y's are out of range
+	      }
+	      else if( y1<=720 && y1>=-720 && y2<=720 && y2>=-720)
+	      {			     
+		  f+='<line x1="';
+		  f+=x1;
+		  f+='" y1="';
+		  f+=y1;
+		  f+='" x2="';
+		  f+=x2;
+		  f+='" y2="';
+		  f+=y2;
+		  f+='" stroke="';
+		  f+=c;
+		  f+='" stroke-width="2px"/>';
+
+	      }
+	  }
+
+	  
+	  
+	  var cp='<pre>&lt;!-- SVG IMAGE HEADER --&gt;\n&lt;svg width=&#34;361px&#34; height=&#34;361px&#34; version=&#34;1.1&#34;&gt;&lt;defs&gt;&lt;/defs&gt;\n\n&lt;!-- COORDINATE PLANE --&gt;\n&lt;line x1=&#34;0&#34; y1=&#34;0&#34; x2=&#34;360&#34; y2=&#34;0&#34; stroke=&#34;#000000&#34; stroke-width=&#34;2px&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;15&#34; x2=&#34;360&#34; y2=&#34;15&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;30&#34; x2=&#34;360&#34; y2=&#34;30&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;45&#34; x2=&#34;360&#34; y2=&#34;45&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;60&#34; x2=&#34;360&#34; y2=&#34;60&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;75&#34; x2=&#34;360&#34; y2=&#34;75&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;90&#34; x2=&#34;360&#34; y2=&#34;90&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;105&#34; x2=&#34;360&#34; y2=&#34;105&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;120&#34; x2=&#34;360&#34; y2=&#34;120&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;135&#34; x2=&#34;360&#34; y2=&#34;135&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;150&#34; x2=&#34;360&#34; y2=&#34;150&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;165&#34; x2=&#34;360&#34; y2=&#34;165&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;195&#34; x2=&#34;360&#34; y2=&#34;195&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;210&#34; x2=&#34;360&#34; y2=&#34;210&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;225&#34; x2=&#34;360&#34; y2=&#34;225&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;240&#34; x2=&#34;360&#34; y2=&#34;240&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;255&#34; x2=&#34;360&#34; y2=&#34;255&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;270&#34; x2=&#34;360&#34; y2=&#34;270&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;285&#34; x2=&#34;360&#34; y2=&#34;285&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;300&#34; x2=&#34;360&#34; y2=&#34;300&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;315&#34; x2=&#34;360&#34; y2=&#34;315&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;330&#34; x2=&#34;360&#34; y2=&#34;330&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;345&#34; x2=&#34;360&#34; y2=&#34;345&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;360&#34; x2=&#34;360&#34; y2=&#34;360&#34; stroke=&#34;#000000&#34;/&gt;&lt;line x1=&#34;0.75&#34; y1=&#34;0&#34; x2=&#34;0.75&#34; y2=&#34;360&#34; stroke=&#34;#000000&#34;/&gt;&lt;line x1=&#34;15&#34; y1=&#34;0&#34; x2=&#34;15&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;30&#34; y1=&#34;0&#34; x2=&#34;30&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;45&#34; y1=&#34;0&#34; x2=&#34;45&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;60&#34; y1=&#34;0&#34; x2=&#34;60&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;75&#34; y1=&#34;0&#34; x2=&#34;75&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;90&#34; y1=&#34;0&#34; x2=&#34;90&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;105&#34; y1=&#34;0&#34; x2=&#34;105&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;120&#34; y1=&#34;0&#34; x2=&#34;120&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;135&#34; y1=&#34;0&#34; x2=&#34;135&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;150&#34; y1=&#34;0&#34; x2=&#34;150&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;165&#34; y1=&#34;0&#34; x2=&#34;165&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;195&#34; y1=&#34;0&#34; x2=&#34;195&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;210&#34; y1=&#34;0&#34; x2=&#34;210&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;225&#34; y1=&#34;0&#34; x2=&#34;225&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;240&#34; y1=&#34;0&#34; x2=&#34;240&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;255&#34; y1=&#34;0&#34; x2=&#34;255&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;270&#34; y1=&#34;0&#34; x2=&#34;270&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;285&#34; y1=&#34;0&#34; x2=&#34;285&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;300&#34; y1=&#34;0&#34; x2=&#34;300&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;315&#34; y1=&#34;0&#34; x2=&#34;315&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;330&#34; y1=&#34;0&#34; x2=&#34;330&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;345&#34; y1=&#34;0&#34; x2=&#34;345&#34; y2=&#34;360&#34; stroke=&#34;#BBBBBB&#34;/&gt;&lt;line x1=&#34;360&#34; y1=&#34;0&#34; x2=&#34;360&#34; y2=&#34;360&#34; stroke=&#34;#000000&#34;/&gt;&lt;line x1=&#34;180&#34; y1=&#34;0&#34; x2=&#34;180&#34; y2=&#34;360&#34; stroke-width=&#34;3&#34; stroke=&#34;#000000&#34;/&gt;&lt;line x1=&#34;0&#34; y1=&#34;180&#34; x2=&#34;360&#34; y2=&#34;180&#34; stroke-width=&#34;3&#34; stroke=&#34;#000000&#34;/&gt;&lt;text x=&#34;168&#34; y=&#34;10&#34; fill=&#34;black&#34;&gt;y&lt;/text&gt;&lt;text x=&#34;349&#34; y=&#34;176&#34; fill=&#34;black&#34;&gt;x&lt;/text&gt;\n\n';
+
+
+	  
+	  
+	  var s=window.open( "", "", "height=100,width=400,menubar=no,resizeable=yes,scrollbars=yes,status=no,toolbar=yes" );
+	  s.document.write( cp );
+
+	  var d=f.length;
+	  var f2='';
+	  var f3='';
+
+	  for( x=0;x<d;x++)
+	  {
+	      f3=f.substr(x,1);
+	      if( f3=='<' )
+	      {
+		  f2+='&lt;';
+	      }
+	      else if( f3=='>' )
+	      {
+		  f2+='&gt;';
+	      }
+	      else if( f3=='"') //"
+	      {
+		  f2+='&#34;';
+	      }
+	      //else if( f3=='\n')
+	      //{
+	//  f2+=' ';
+	  //    }
+	      else 
+	      {
+		f2+=f3;
+	      }
+	  }
+
+	  
+	  s.document.write( f2 );
+	  s.document.write("\n&lt;/svg&gt;");
+	  //s.stop();
+      }
+      function openGraph()
+      {
+	  var f='';
+	  var c='red';
+	  var s=(11-form1.functionresolution.value)/12;
+	  var f_str='';
+	  var func=form1.functiontograph.value;
+
+
+
+	  if( form1.functiontograph.value =='' )
+	  {
+	      alert( "You haven't defined a function!");
+	      return;
+	  }
+
+	  func=func.replace(/abs/g, "Math.abs" );
+	  func=func.replace(/sin/g, "Math.sin" );
+	  func=func.replace(/cos/g, "Math.cos" );
+	  func=func.replace(/tan/g, "Math.tan" );
+	  func=func.replace(/sqrt/g, "Math.sqrt" );
+	  func=func.replace(/log/g, "(1/Math.log(10))*Math.log" );
+	  func=func.replace(/ln/g, "Math.log" );
+	  
+	 // func=func.replace(/sqrt/g, "Math.sqrt" );
+	  func=func.replace(/0x/g, "0*x" );	  
+	  func=func.replace(/1x/g, "1*x" );
+	  func=func.replace(/2x/g, "2*x" );
+	  func=func.replace(/3x/g, "3*x" );
+	  func=func.replace(/4x/g, "4*x" );
+	  func=func.replace(/5x/g, "5*x" );
+	  func=func.replace(/6x/g, "6*x" );
+	  func=func.replace(/7x/g, "7*x" );
+	  func=func.replace(/8x/g, "8*x" );
+	  func=func.replace(/9x/g, "9*x" );
+
+	  func=func.replace(/0pi/g, "0*pi" );
+	  func=func.replace(/1pi/g, "1*pi" );
+	  func=func.replace(/2pi/g, "2*pi" );
+	  func=func.replace(/3pi/g, "3*pi" );
+	  func=func.replace(/4pi/g, "4*pi" );
+	  func=func.replace(/5pi/g, "5*pi" );
+	  func=func.replace(/6pi/g, "6*pi" );
+	  func=func.replace(/7pi/g, "7*pi" );
+	  func=func.replace(/8pi/g, "8*pi" );
+	  func=func.replace(/9pi/g, "9*pi" );
+
+	  func=func.replace(/0e/g, "0*e" );
+	  func=func.replace(/1e/g, "1*e" );
+	  func=func.replace(/2e/g, "2*e" );
+	  func=func.replace(/3e/g, "3*e" );
+	  func=func.replace(/4e/g, "4*e" );
+	  func=func.replace(/5e/g, "5*e" );
+	  func=func.replace(/6e/g, "6*e" );
+	  func=func.replace(/7e/g, "7*e" );
+	  func=func.replace(/8e/g, "8*e" );
+	  func=func.replace(/9e/g, "9*e" );
+
+	  
+	  var l=func.length;
+	  
+	  for( L=0; L<l; L++ )
+	  {
+	      func=func.replace( '^', '**' );
+	      func=func.replace( 'e', 'Math.E' );
+	      func=func.replace( 'pi','Math.PI');
+	      	  func=func.replace(/0x/g, "0*x" );	  
+
+	      
+	  }
+	      
+	      
+	      
+
+	  
+	  f_str+='return ';
+	  //f_str+=form1.functiontograph.value;
+	  f_str+=func;
+	      
+	  var myFunc = new Function( 'x', f_str );
+
+	  f+='\n\n<!-- GRAPH OF y='; 
+	  f+=form1.functiontograph.value;
+	  f+=' -->\n';
+	  for( L=-12; L<=12+s; L=L+s )
+	  {
+	      x1=Math.round((15*L+180)*100)/100;
+	      x2=Math.round((15*(L+s)+180)*100)/100;
+	      y=myFunc(L);
+	      y1=Math.round((-15*y+180)*100)/100;
+	      y=myFunc(L+s);		 
+	      y2=Math.round((-15*y+180)*100)/100;
+	      if( ((y1>360)&&(y2>360)) || ((y1<0)&&(y2<0)))
+	      {
+		  // Do Nothing if both y's are out of range
+	      }
+	      else if( y1<=720 && y1>=-720 && y2<=720 && y2>=-720)
+	      {			     
+		  f+='<line x1="';
+		  f+=x1;
+		  f+='" y1="';
+		  f+=y1;
+		  f+='" x2="';
+		  f+=x2;
+		  f+='" y2="';
+		  f+=y2;
+		  f+='" stroke="';
+		  f+=c;
+		  f+='" stroke-width="2px"/>';
+	      }
+	  }
+
+	  
+	  
+	  var cp='<!-- SVG IMAGE -->\n<svg width="361px" height="361px" version="1.1"><defs></defs>\n\n<!-- COORDINATE PLANE -->\n<line x1="0" y1="0" x2="360" y2="0" stroke="#000000" stroke-width="2px"/><line x1="0" y1="15" x2="360" y2="15" stroke="#BBBBBB"/><line x1="0" y1="30" x2="360" y2="30" stroke="#BBBBBB"/><line x1="0" y1="45" x2="360" y2="45" stroke="#BBBBBB"/><line x1="0" y1="60" x2="360" y2="60" stroke="#BBBBBB"/><line x1="0" y1="75" x2="360" y2="75" stroke="#BBBBBB"/><line x1="0" y1="90" x2="360" y2="90" stroke="#BBBBBB"/><line x1="0" y1="105" x2="360" y2="105" stroke="#BBBBBB"/><line x1="0" y1="120" x2="360" y2="120" stroke="#BBBBBB"/><line x1="0" y1="135" x2="360" y2="135" stroke="#BBBBBB"/><line x1="0" y1="150" x2="360" y2="150" stroke="#BBBBBB"/><line x1="0" y1="165" x2="360" y2="165" stroke="#BBBBBB"/><line x1="0" y1="195" x2="360" y2="195" stroke="#BBBBBB"/><line x1="0" y1="210" x2="360" y2="210" stroke="#BBBBBB"/><line x1="0" y1="225" x2="360" y2="225" stroke="#BBBBBB"/><line x1="0" y1="240" x2="360" y2="240" stroke="#BBBBBB"/><line x1="0" y1="255" x2="360" y2="255" stroke="#BBBBBB"/><line x1="0" y1="270" x2="360" y2="270" stroke="#BBBBBB"/><line x1="0" y1="285" x2="360" y2="285" stroke="#BBBBBB"/><line x1="0" y1="300" x2="360" y2="300" stroke="#BBBBBB"/><line x1="0" y1="315" x2="360" y2="315" stroke="#BBBBBB"/><line x1="0" y1="330" x2="360" y2="330" stroke="#BBBBBB"/><line x1="0" y1="345" x2="360" y2="345" stroke="#BBBBBB"/><line x1="0" y1="360" x2="360" y2="360" stroke="#000000"/><line x1="0.75" y1="0" x2="0.75" y2="360" stroke="#000000"/><line x1="15" y1="0" x2="15" y2="360" stroke="#BBBBBB"/><line x1="30" y1="0" x2="30" y2="360" stroke="#BBBBBB"/><line x1="45" y1="0" x2="45" y2="360" stroke="#BBBBBB"/><line x1="60" y1="0" x2="60" y2="360" stroke="#BBBBBB"/><line x1="75" y1="0" x2="75" y2="360" stroke="#BBBBBB"/><line x1="90" y1="0" x2="90" y2="360" stroke="#BBBBBB"/><line x1="105" y1="0" x2="105" y2="360" stroke="#BBBBBB"/><line x1="120" y1="0" x2="120" y2="360" stroke="#BBBBBB"/><line x1="135" y1="0" x2="135" y2="360" stroke="#BBBBBB"/><line x1="150" y1="0" x2="150" y2="360" stroke="#BBBBBB"/><line x1="165" y1="0" x2="165" y2="360" stroke="#BBBBBB"/><line x1="195" y1="0" x2="195" y2="360" stroke="#BBBBBB"/><line x1="210" y1="0" x2="210" y2="360" stroke="#BBBBBB"/><line x1="225" y1="0" x2="225" y2="360" stroke="#BBBBBB"/><line x1="240" y1="0" x2="240" y2="360" stroke="#BBBBBB"/><line x1="255" y1="0" x2="255" y2="360" stroke="#BBBBBB"/><line x1="270" y1="0" x2="270" y2="360" stroke="#BBBBBB"/><line x1="285" y1="0" x2="285" y2="360" stroke="#BBBBBB"/><line x1="300" y1="0" x2="300" y2="360" stroke="#BBBBBB"/><line x1="315" y1="0" x2="315" y2="360" stroke="#BBBBBB"/><line x1="330" y1="0" x2="330" y2="360" stroke="#BBBBBB"/><line x1="345" y1="0" x2="345" y2="360" stroke="#BBBBBB"/><line x1="360" y1="0" x2="360" y2="360" stroke="#000000"/><line x1="180" y1="0" x2="180" y2="360" stroke-width="3" stroke="#000000"/><line x1="0" y1="180" x2="360" y2="180" stroke-width="3" stroke="#000000"/><text x="168" y="10" fill="black">y</text><text x="349" y="176" fill="black">x</text>\n\n';
+
+
+	  
+	  
+	  var s=window.open( "", "", "height=400,width=380,menubar=no,resizeable=no,scrollbars=no,status=no,toolbar=no," );
+	  s.document.write("<html><head></head><body>");
+	  s.document.write( cp );
+	  s.document.write( f );
+	  s.document.write("</svg>");
+	  s.document.write("<center><input type='button' value='Close' onClick='javascript:window.close();'></center>");
+	  s.document.write("</body></html>");
+	  //s.stop();
+      }
+
+      var global_first_key=1;
+      var global_error_code=0;
+      var x=0;
+      var y=0;
+      var z=0;
+
+      // This is the Parenthese count - in order to eval, it must be naught
+      var par_count=0;
+
+      function parCount()
+      {
+	  par_count=0;
+	  var str=form1.screen.value;
+	  for( L=0; L<str.length; L++ )
+	  {
+	      if( str.charAt(L) == '(' )
+	      {
+		  par_count++;
+	      }
+	      else if( str.charAt(L) == ')' )
+	      {
+		  par_count--;
+	      }
+	  }
+      }
+      function calculate()
+      {
+	  global_error_code=0;
+	  var str=form1.screen.value;
+
+	  parCount();
+	  if( par_count != 0 )
+	  {
+	      alert( "() Mismatch -- cannot calculate");
+	      return;
+	  }
+
+	  str=str.replace(/atan/g, "Q" );
+	  str=str.replace(/acos/g, "W" );
+	  str=str.replace(/asin/g, "R" );
+
+	  
+	  for( l=0; l<str.length; l++ )
+	  {
+	      str=str.replace('^', '**' );
+	      str=str.replace('sin(', 'S' );
+	      str=str.replace('cos(', 'C' );
+	      str=str.replace('tan(', 'T' );
+	  }
+	  for( l=0; l<str.length; l++ )
+	  {
+	      if( form1.mode.value=='Dg' )
+	      {
+		  str=str.replace('S', 'Math.sin(((pi)/180)*');
+		  str=str.replace('C', 'Math.cos(((pi)/180)*');
+		  str=str.replace('T', 'Math.tan(((pi)/180)*');
+	      }
+	      else
+	      {
+		  str=str.replace('S', 'Math.sin(');
+		  str=str.replace('C', 'Math.cos(');
+		  str=str.replace('T', 'Math.tan(');
+	      }
+
+	  }
+
+	  if( form1.mode.value=='Dg' )
+	  {
+	      str=str.replace(/Q/g, '(180/pi)*Math.atan');
+	      str=str.replace(/W/g, '(180/pi)*Math.acos');
+	      str=str.replace(/R/g, '(180/pi)*Math.asin');
+	  }
+	  else
+	  {
+	      str=str.replace(/Q/g, 'Math.atan');
+	      str=str.replace(/W/g, 'Math.acos');
+	      str=str.replace(/R/g, 'Math.asin');
+	  }
+	  
+	  str=str.replace(/pi/g, "Math.PI" );
+	  str=str.replace(/e/g, "Math.E" );
+	  str=str.replace(/log/g, "(1/Math.LN10)*Math.log" );
+	  str=str.replace(/ln/g, "Math.log" );
+	  str=str.replace(/sqrt/g, "Math.sqrt" );
+	  var E;
+
+	  try {
+	      E=eval(str);
+	  } catch (error) {
+	      E=str;
+	      alert("ERROR: I don't understand ["+E+"]");
+	      global_error_code=1;
+	      return;
+	  }
+	  E=Math.round(E*10000000000)/10000000000;
+	  form1.tape.value+=form1.screen.value;
+	  form1.tape.value+=' = ';
+	  form1.tape.value+=E;
+	  form1.tape.value+='\n';
+	  form1.screen.value=E;
+	  document.getElementById("tape").scrollTop = document.getElementById("tape").scrollHeight;
+	  
+	  return;
+      }
+
+      function key(k)
+      {
+	  if( k=='=' )
+	  {
+	      if( par_count != 0 )
+	      {
+		  alert( "( ) Mismatch - Can't Calculate" );
+		  return;
+	      }
+
+	      if( form1.screen.value!='' )
+	      {
+		  calculate();
+		  if( global_error_code==1 )
+		  {
+		      return;
+		  }
+	      }
+	      else
+	      {
+		  form1.tape.value+='\n';
+	      }
+	  }
+	  else if( k=='inv' )
+	  {
+	      
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value="1/("+form1.screen.value+")";
+	      }
+	      //return;
+	  }
+	  else if( k=='BK' )
+	  {
+	      // Backspace
+	      
+	      form1.screen.value = form1.screen.value.substr(0, form1.screen.value.length-1);
+
+	  }
+	  else if( k=='C' )
+	  {
+	      form1.screen.value='';
+	      par_count=0;
+	  }
+	  else if( k=='tox' )
+	  {
+	      x=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> x\n';
+	  }
+	  else if( k=='toy' )
+	  {
+	      y=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> y\n';
+	  }
+	  else if( k=='toz' )
+	  {
+	      z=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> z\n';
+	  }
+	  else if( k=='fromx' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=x;
+	      }
+	      else
+	      {
+		  form1.screen.value+=x;
+	      }
+	  }
+	  else if( k=='fromy' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=y;
+	      }
+	      else
+	      {
+		  form1.screen.value+=y;
+	      }
+	  }
+	  else if( k=='fromz' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=z;
+	      }
+	      else
+	      {
+		  form1.screen.value+=z;
+	      }
+	  }
+	  else if( k=='^' )
+	  {
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value+='^';
+	      }
+	  }
+	  else if( k=='log' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='log(';
+	  }
+	  else if( k=='asin' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='asin(';
+	  }
+	  else if( k=='acos' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='acos(';
+	  }
+	  else if( k=='atan' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='atan(';
+	  }
+	  else if( k=='sin' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='sin(';
+	  }
+	  else if( k=='cos' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='cos(';
+	  }
+	  else if( k=='tan' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='tan(';
+	  }
+	  else if( k=='pi' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='(pi)';
+	  }
+	  else if( k=='RND' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      
+	      form1.screen.value+=Math.round( 100000*Math.random() )/100000;
+	      
+	  }
+	  else if( k=='sqrt' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='sqrt(';
+	  }
+	  else if( k=='M' )
+	  {
+	      if( form1.mode.value=='Dg' )
+	      {
+		  form1.mode.value='Rd';
+	      }
+	      else
+	      {
+		  form1.mode.value='Dg';
+	      }
+	  }
+	  else if( k=='ln' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='ln(';
+	  }
+	  else if( (k=='+') || (k=='*') || (k=='/') || (k=='-') )
+	  {
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value+=k;
+	      }
+	  }
+	  else
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+=k;
+	  }
+	  
+	  if( k=='=' || k=='tox' || k=='toy' || k=='toz' )
+	  {
+	      global_first_key=1;
+	  }
+	  else
+	  {
+	      global_first_key=0;
+	  }
+	  parCount();
+      }
+      
+    </script>
+  </head>
+  
+  <body>
+    <center>
+    <form name='form1' action='' method='GET'>
+      <table border=1>
+	<tr><td colspan=6 align=-center><textarea name="screen" rows="1" cols="20"></textarea><input type='button' onClick="javascript:key('BK');" value="BKSPC"></td><td rowspan=8><textarea id='tape' name="tape" rows="15" cols="20"></textarea></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('C');" value='C'></td><td align=center><input type='button' onClick="javascript:key('(');" value='('></td><td align=center><input type='button' onClick="javascript:key(')');" value=')'></td><td align=center><input type='button' onClick="javascript:key('pi');" value='pi'></td><td align=center><input type='button' onClick="javascript:key('e^');" value='e^x'></td><td align=center><input type='button' onClick="javascript:key('tox');" value='&rarr; x'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('sin');" value='sin'></td><td align=center><input type='button' onClick="javascript:key('cos');" value='cos'></td><td align=center><input type='button' onClick="javascript:key('tan');" value='tan'></td><td align=center><input type='button' onClick="javascript:key('/');" value='/'></td><td align=center><input type='button' onClick="javascript:key('ln');" value='ln'></td><td align=center><input type='button' onClick="javascript:key('toy');" value='&rarr; y'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('^');" value='^'></td><td align=center><input type='button' onClick="javascript:key('sqrt');" value='sqrt'></td><td align=center><input type='button' onClick="javascript:key('inv');" value='inv'></td><td align=center><input type='button' onClick="javascript:key('*');" value='x'></td><td align=center><input type='button' onClick="javascript:key('log');" value='log'></td><td align=center><input type='button' onClick="javascript:key('toz');" value='&rarr; z'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('7');" value='7'></td><td align=center><input type='button' onClick="javascript:key('8');" value='8'></td><td align=center><input type='button' onClick="javascript:key('9')" value='9'></td><td align=center><input type='button' onClick="javascript:key('-');" value='-'></td><td align=center><input type='button' onClick="javascript:key('asin');" value='asin'></td><td align=center><input type='button' onClick="javascript:key('fromx');" value='&larr; x'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('4');" value='4'></td><td align=center><input type='button' onClick="javascript:key('5');" value='5'></td><td align=center><input type='button' onClick="javascript:key('6')" value='6'></td><td align=center><input type='button' onClick="javascript:key('+');" value='+'></td><td align=center><input type='button' onClick="javascript:key('acos');" value='acos'></td><td align=center><input type='button' onClick="javascript:key('fromy');" value='&larr; y'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('1');" value='1'></td><td align=center><input type='button' onClick="javascript:key('2');" value='2'></td><td align=center><input type='button' onClick="javascript:key('3');" value='3'></td><td align=center><input type='button' onClick="javascript:key('=');" value='='></td><td align=center><input type='button' onClick="javascript:key('atan');" value='atan'></td><td align=center><input type='button' onClick="javascript:key('fromz');" value='&larr; z'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('M');" value='M'></td><td align=center><input type='button' onClick="javascript:key(0);" value='0'></td><td align=center><input type='button' onClick="javascript:key('.');" value='.'></td><td align=center><input type='text' id='mode' name='mode' value='Dg' size=1></td><td align=center><input type='button' onClick="javascript:key('RND');" value='Rand'></td><td align=center><input type='button' onClick="javascript:form1.tape.value+='\n';" value='CR/LF'></td></tr>
+	</table>
+
+      <br>
+      <input type='button' onClick="javascript:openGraph();" value='graph'><input type='button' onClick="javascript:openSource();" value='source'><pre>y=<input type='text' id='functiontograph' name='functiontograph'><input type='text' id='functionresolution' name='functionresolution' value='10' size='3'> (10=high 1=low)</pre>
+
+    </form>
+    </center>
+    <p><center><font size=-2><i>A Simple Graphing Calculator Coded By: Mr. Pellegrino - Last Updated on: 2017 10 17</i></font></center></p>
+    
+  </body>
+</html>
+
