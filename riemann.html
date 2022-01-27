@@ -1,0 +1,330 @@
+<html>
+  <!--    SVG Riemann Sum Generator    -->
+  <!--    By: Michael K. Pellegrino    -->
+  <!--        January 25, 2022         -->
+  
+  <head>
+    <title>SVG Riemann Sum Generator - Michael K. Pellegrino</title>
+    <script language="javascript">
+      var svg_array=[];
+      var par_count=0;
+      function logMsg( text )
+      {
+	  document.getElementById("errorlog").innerHTML += "<font color='#FF0000'>" + text + "</font><br>"; // no error
+      }
+      
+      function convertX(X)
+      {
+	  return Number(15)*Number(X)+Number(180);
+      }
+
+      function convertY(Y)
+      {
+	  return Number(-15)*Number(Y)+Number(180);
+      }
+
+      function addObject(text)
+      {
+	  svg_array[svg_array.length-1]=text;
+	  svg_array[svg_array.length]="</svg>";
+	  var svg_text=""; 
+	  for( var i=0; i<svg_array.length; i++ )
+	  {
+	      svg_text+=svg_array[i];
+	  }
+	  document.getElementById("svg0").innerHTML=svg_text;
+      }
+
+      /* Hide/Show an HTML Object with ID=text */
+      function toggle( text )
+      {
+	  if (document.getElementById(text).style.display == "block")
+	  {
+	      document.getElementById(text).style.display = "none";
+	  }
+	  else
+	  {
+	      document.getElementById(text).style.display = "block";
+	  }
+      }
+
+      function resetAll()
+      {
+	  svg_array=[];
+	  svg_array[0]=" ";
+	  document.getElementById("errorlog").innerHTML = "";
+	  
+	  document.getElementById("instructions").style.display = "none";
+
+	  addObject("<!-- SVG IMAGE HEADER --><svg width='361px' height='361px' version='1.1'><defs></defs>");
+	  addObject('<!-- COORDINATE PLANE --><line x1="0" y1="0" x2="360" y2="0" stroke="#000000" stroke-width="2px"/><line x1="0" y1="15" x2="360" y2="15" stroke="#BBBBBB"/><line x1="0" y1="30" x2="360" y2="30" stroke="#BBBBBB"/><line x1="0" y1="45" x2="360" y2="45" stroke="#BBBBBB"/><line x1="0" y1="60" x2="360" y2="60" stroke="#BBBBBB"/><line x1="0" y1="75" x2="360" y2="75" stroke="#BBBBBB"/><line x1="0" y1="90" x2="360" y2="90" stroke="#BBBBBB"/><line x1="0" y1="105" x2="360" y2="105" stroke="#BBBBBB"/><line x1="0" y1="120" x2="360" y2="120" stroke="#BBBBBB"/><line x1="0" y1="135" x2="360" y2="135" stroke="#BBBBBB"/><line x1="0" y1="150" x2="360" y2="150" stroke="#BBBBBB"/><line x1="0" y1="165" x2="360" y2="165" stroke="#BBBBBB"/><line x1="0" y1="195" x2="360" y2="195" stroke="#BBBBBB"/><line x1="0" y1="210" x2="360" y2="210" stroke="#BBBBBB"/><line x1="0" y1="225" x2="360" y2="225" stroke="#BBBBBB"/><line x1="0" y1="240" x2="360" y2="240" stroke="#BBBBBB"/><line x1="0" y1="255" x2="360" y2="255" stroke="#BBBBBB"/><line x1="0" y1="270" x2="360" y2="270" stroke="#BBBBBB"/><line x1="0" y1="285" x2="360" y2="285" stroke="#BBBBBB"/><line x1="0" y1="300" x2="360" y2="300" stroke="#BBBBBB"/><line x1="0" y1="315" x2="360" y2="315" stroke="#BBBBBB"/><line x1="0" y1="330" x2="360" y2="330" stroke="#BBBBBB"/><line x1="0" y1="345" x2="360" y2="345" stroke="#BBBBBB"/><line x1="0" y1="360" x2="360" y2="360" stroke="#000000"/><line x1="0.75" y1="0" x2="0.75" y2="360" stroke="#000000"/><line x1="15" y1="0" x2="15" y2="360" stroke="#BBBBBB"/><line x1="30" y1="0" x2="30" y2="360" stroke="#BBBBBB"/><line x1="45" y1="0" x2="45" y2="360" stroke="#BBBBBB"/><line x1="60" y1="0" x2="60" y2="360" stroke="#BBBBBB"/><line x1="75" y1="0" x2="75" y2="360" stroke="#BBBBBB"/><line x1="90" y1="0" x2="90" y2="360" stroke="#BBBBBB"/><line x1="105" y1="0" x2="105" y2="360" stroke="#BBBBBB"/><line x1="120" y1="0" x2="120" y2="360" stroke="#BBBBBB"/><line x1="135" y1="0" x2="135" y2="360" stroke="#BBBBBB"/><line x1="150" y1="0" x2="150" y2="360" stroke="#BBBBBB"/><line x1="165" y1="0" x2="165" y2="360" stroke="#BBBBBB"/><line x1="195" y1="0" x2="195" y2="360" stroke="#BBBBBB"/><line x1="210" y1="0" x2="210" y2="360" stroke="#BBBBBB"/><line x1="225" y1="0" x2="225" y2="360" stroke="#BBBBBB"/><line x1="240" y1="0" x2="240" y2="360" stroke="#BBBBBB"/><line x1="255" y1="0" x2="255" y2="360" stroke="#BBBBBB"/><line x1="270" y1="0" x2="270" y2="360" stroke="#BBBBBB"/><line x1="285" y1="0" x2="285" y2="360" stroke="#BBBBBB"/><line x1="300" y1="0" x2="300" y2="360" stroke="#BBBBBB"/><line x1="315" y1="0" x2="315" y2="360" stroke="#BBBBBB"/><line x1="330" y1="0" x2="330" y2="360" stroke="#BBBBBB"/><line x1="345" y1="0" x2="345" y2="360" stroke="#BBBBBB"/><line x1="360" y1="0" x2="360" y2="360" stroke="#000000"/><line x1="180" y1="0" x2="180" y2="360" stroke-width="3" stroke="#000000"/><line x1="0" y1="180" x2="360" y2="180" stroke-width="3" stroke="#000000"/><text x="168" y="10" fill="black">y</text><text x="349" y="176" fill="black">x</text>');
+
+	  //addObject('</svg>');
+
+      }
+      
+      function onload()
+      {
+	  resetAll();
+	  return;
+      }
+
+      /* This is the Parenthese count - in order to eval, it must be naught */
+      function parCount(text)
+      {
+	  var par_count=0;
+	  for( L=0; L<text.length; L++ )
+	  {
+	      if( text.charAt(L) == '(' )
+	      {
+		  par_count++;
+	      }
+	      else if( text.charAt(L) == ')' )
+	      {
+		  par_count--;
+	      }
+	  }
+	  return par_count;
+      }
+      
+      function convertExpression(text)
+      {
+	  
+	  text=text.replace(/abs/g, "Math.abs" );
+	  text=text.replace(/atan/g, "Q" );
+	  text=text.replace(/acos/g, "W" );
+	  text=text.replace(/asin/g, "R" );
+
+	  
+	  for( l=0; l<text.length; l++ )
+	  {
+	      text=text.replace('^', '**' );
+	      text=text.replace('sin(', 'S' );
+	      text=text.replace('cos(', 'C' );
+	      text=text.replace('tan(', 'T' );
+	  }
+	  for( l=0; l<text.length; l++ )
+	  {
+	      text=text.replace('S', 'Math.sin(');
+	      text=text.replace('C', 'Math.cos(');
+	      text=text.replace('T', 'Math.tan(');
+	  }
+
+	  text=text.replace(/Q/g, 'Math.atan');
+	  text=text.replace(/W/g, 'Math.acos');
+	  text=text.replace(/R/g, 'Math.asin');
+
+	  text=text.replace(/xe/g, "x*e" );
+	  text=text.replace(/ex/g, "e*x" );
+	  
+	  
+	  text=text.replace(/pi/g, "Math.PI" );
+	  text=text.replace(/e/g, "Math.E" );
+	  // This log replacement is not correct
+	  // log(x*4)^2 should get turned into
+	  // ((1/Math.LN10)*Math.log(x*4))**2
+	  // NOT: (1/Math.LN10)*Math.log(x*4)**2
+	  text=text.replace(/log/g, "(1/Math.LN10)*Math.log" ); 
+	  text=text.replace(/ln/g, "Math.log" );
+	  text=text.replace(/sqrt/g, "Math.sqrt" );
+
+	  text=text.replace(/0x/g, "0*x" );	  
+	  text=text.replace(/1x/g, "1*x" );
+	  text=text.replace(/2x/g, "2*x" );
+	  text=text.replace(/3x/g, "3*x" );
+	  text=text.replace(/4x/g, "4*x" );
+	  text=text.replace(/5x/g, "5*x" );
+	  text=text.replace(/6x/g, "6*x" );
+	  text=text.replace(/7x/g, "7*x" );
+	  text=text.replace(/8x/g, "8*x" );
+	  text=text.replace(/9x/g, "9*x" );
+
+	  text=text.replace(/0Math/g, "0*Math" );	  
+	  text=text.replace(/1Math/g, "1*Math" );
+	  text=text.replace(/2Math/g, "2*Math" );
+	  text=text.replace(/3Math/g, "3*Math" );
+	  text=text.replace(/4Math/g, "4*Math" );
+	  text=text.replace(/5Math/g, "5*Math" );
+	  text=text.replace(/6Math/g, "6*Math" );
+	  text=text.replace(/7Math/g, "7*Math" );
+	  text=text.replace(/8Math/g, "8*Math" );
+	  text=text.replace(/9Math/g, "9*Math" );
+
+	  text=text.replace(/xMath/g, "x*Math" );
+	  text=text.replace(/Math.EMath/g, "Math.E*Math" );
+	  
+	  
+	  var l=text.length;
+	  
+	  for( L=0; L<l; L++ )
+	  {
+	      text=text.replace( '^', '**' );
+	      text=text.replace( 'e', 'Math.E' );
+	      text=text.replace( 'pi','Math.PI');
+	  }
+
+	  return(text);
+      }
+
+      function evaluate_function( f, x )
+      {
+	  var y=0;
+	  var f_at_x=f.replace( /x/g, "(" + x + ")" );
+	  try
+	  {
+	      y=eval(f_at_x);
+	      //y=Math.round(y*10000000000)/10000000000;
+	  }
+	  catch (error)
+	  {
+	      
+	      logMsg( "[ERROR] Evaluation of " + f_at_x );
+	  }
+
+	  return y;
+      }
+      
+      function graph( fn )
+      {
+	  var E;
+	  for( var i = -12; i<=12.08; i+=0.08 )
+	  {
+	      var x1=i;
+	      var y1;
+	      var x2=i+0.08;
+	      var y2;
+	      
+	      var fn_y1=fn.replace( /x/g, "(" + x1 + ")" );
+	      var fn_y2=fn.replace( /x/g, "(" + x2 + ")" );
+	      try
+	      {
+		  y1=eval(fn_y1);
+		  y2=eval(fn_y2);
+		  //y1=Math.round(y1*10000000000)/10000000000;
+		  //y2=Math.round(y2*10000000000)/10000000000;
+
+		  if( ((y1<=15) && (y1>=-15)) && ((y2<=15) && (y2>=-15)) )
+		  {
+		      addObject( "<line x1='" + convertX(x1) + "' y1='" + convertY(y1) + "' x2='" + convertX(x2) + "' y2='" + convertY(y2) + "' stroke='#FF0000' stroke-width='2px'/>" );
+		  }
+	      }
+	      catch (error)
+	      {
+		  logMsg( "Evaluation Error" );
+	      }
+	  }
+      }
+
+      function createRiemannSum()
+      {
+	  resetAll();
+	  /* check bounds */
+	  if( form1.lb.value < -12 ) form1.lb.value = -12;
+	  if( form1.rb.value > 12 ) form1.rb.value = 12;
+
+	  if( form1.lb.value > form1.rb.value )
+	  {
+	      /* switch them */
+	      var tmp = form1.lb.value;
+	      form1.lb.value=form1.rb.value;
+	      form1.rb.value=tmp;
+	  }
+	  else if( form1.lb.value == form1.rb.value )
+	  {
+	      logMsg( "[ERROR] Bounds are Equal" );
+	      return;
+	  }
+	  
+
+	  var usable_expression = convertExpression(form1.fn.value);
+	  if( usable_expression == "" )
+	  {
+	      logMsg( "[ERROR] Equation is not usable." );
+	      return;
+	      
+	  }
+	  graph( usable_expression );
+
+	  var n = form1.nm.value;
+	  var lcr;
+	  if( form1.handedness.value == 'r' )
+	  {
+	      lcr = 1;
+	  }
+	  else if( form1.handedness.value == 'l' )
+	  {
+	      lcr = 0;
+	  }
+	  else
+	  {
+	      lcr = 0.5;
+	  }
+	  var b1 = form1.lb.value;
+	  var b2 = form1.rb.value;
+
+	  /* calculate the width of each rectangle */
+	  var w = (b2-b1)/n;
+
+	  var TotalArea=0;
+
+	  for( var i=1; i<=n; i++ )
+	  {
+	      var h=convertY(evaluate_function( usable_expression, Number( (Number(b1)+Number(lcr)*Number(w)+(i-1)*w))));
+	      var x1=convertX(Number(b1)+(Number(i)-1)*Number(w));
+	      var x2=convertX(Number(b1)+Number(i)*Number(w));
+	      var y1=convertY(0);
+	      
+	      /* find the top left corner, width and height */
+	      if( x1 < x2 )
+	      {
+		 // addObject( "<rect x='" + x1 + "' y='" + h + "' width='" + 15*w + "' height='" + h + "' />" );
+	      }
+	      else
+	      {
+		 // addObject( "<rect x='" + x2 + "' y='" + h + "' width='" + 15*w + "' height='" + h + "' />" );
+
+	      }
+
+	      TotalArea+=evaluate_function( usable_expression, Number( (Number(b1)+Number(lcr)*Number(w)+(i)*w)))*w;
+
+	      addObject( "<polygon points='" + x1 + "," + y1 + " " + x2 + "," + y1 + " " + x2 + "," + h + " " + x1 + "," + h + "' stroke='#000000' fill-opacity='50%'/>" );
+	      	      
+	      //addObject( "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y1 + "' stroke='#000000' stroke-width='2px'/>" );
+	      //addObject( "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x1 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
+	      //addObject( "<line x1='" + x2 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
+	      //addObject( "<line x1='" + x1 + "' y1='" + h + "' x2='" + x2 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
+	  }
+	  logMsg( "Total Area: " + TotalArea );
+
+	  
+
+      }
+      </script>
+  </head>
+  <body onload="onload();">
+    
+    <form name='form1' action='' method='GET'>
+      <p><center><font size=+3>SVG Riemann Sum Generator</font></center></p>
+      <p><center>By: <a target=_blank href="http://mkpelleg.freeshell.org">Michael K. Pellegrino</a></center></p>
+      <p><center>Version 2.0 - 2022 01 26</center></p>
+      <p><input type='button' onclick='javascript:toggle("instructions");' value='Hide/Show Instructions'></p>      
+      <ol id="instructions">
+	<li>Enter what the function (f(x)) is.</li>
+	<li>Enter how many rectangle's you'd like.</li>
+	<li>Enter left and right bounds for the Riemann Sum.</li>
+	<li>Choose if you'd like a <i>Left</i>, <i>Right</i>, or <i>Centered</i> rectangle.</li>
+	<li>Click on <b>Create Riemann Sum</b>.</li>
+      </ol>
+      <center>
+	
+	<p>f(x)=<input type='text' id='fn' name='fn' value='x^2' size=10>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<input type='text' id='nm' name='nm' value='10' size=10>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left bound: <input type='text' id='lb' value='-10' size=5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right bound: <input type='text' id='rb' value='10' size=5></p>
+	<p><input id="lhandedness" type="radio" name="handedness" value="l">Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="chandedness" type="radio" name="handedness" value="c" checked>Center&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="rhandedness" type="radio" name="handedness" value="r">Right Hand</p>
+	<p><input type='button' onclick='javascript:createRiemannSum();' value='Create Riemann Sum'></p>
+	<p id="svg0"></p>
+	<p id="errorlog"></p>
+    </form>
+    
+    </center>
+  </body>
+</html>
+
