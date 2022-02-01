@@ -128,6 +128,8 @@
 	  text=text.replace(/ln/g, "Math.log" );
 	  text=text.replace(/sqrt/g, "Math.sqrt" );
 
+	  text=text.replace(/-x/g, "-1*x" );	  
+
 	  text=text.replace(/0x/g, "0*x" );	  
 	  text=text.replace(/1x/g, "1*x" );
 	  text=text.replace(/2x/g, "2*x" );
@@ -306,7 +308,7 @@
     <form name='form1' action='' method='GET'>
       <p><center><font size=+3>SVG Riemann Sum Generator</font></center></p>
       <p><center>By: <a target=_blank href="http://mkpelleg.freeshell.org">Michael K. Pellegrino</a></center></p>
-      <p><center>Version 2.0 - 2022 01 26</center></p>
+      <p><center>Version 2.1 - 2022 02 01</center></p>
       <p><input type='button' onclick='javascript:toggle("instructions");' value='Hide/Show Instructions'></p>      
       <ol id="instructions">
 	<li>Enter what the function (f(x)) is.</li>
