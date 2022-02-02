@@ -1,7 +1,7 @@
 <html>
   <!--    SVG Riemann Sum Generator    -->
   <!--    By: Michael K. Pellegrino    -->
-  <!--        January 25, 2022         -->
+  <!--        February 2, 2022         -->
   
   <head>
     <title>SVG Riemann Sum Generator - Michael K. Pellegrino</title>
@@ -10,17 +10,17 @@
       var par_count=0;
       function logMsg( text )
       {
-	  document.getElementById("errorlog").innerHTML += "<font color='#FF0000'>" + text + "</font><br>"; // no error
+	  document.getElementById("errorlog").innerHTML += "<font color='#000000'>" + text + "</font><br>"; // no error
       }
       
       function convertX(X)
       {
-	  return Number(15)*Number(X)+Number(180);
+	  return Math.round(100*(Number(15)*Number(X)+Number(180)))/100;
       }
 
       function convertY(Y)
       {
-	  return Number(-15)*Number(Y)+Number(180);
+	  return Math.round(100*(Number(-15)*Number(Y)+Number(180)))/100;
       }
 
       function addObject(text)
@@ -53,14 +53,31 @@
 	  svg_array=[];
 	  svg_array[0]=" ";
 	  document.getElementById("errorlog").innerHTML = "";
+
 	  
+	  document.getElementById("svg_source_code").style.display = "none";
 	  document.getElementById("instructions").style.display = "none";
 
 	  addObject("<!-- SVG IMAGE HEADER --><svg width='361px' height='361px' version='1.1'><defs></defs>");
-	  addObject('<!-- COORDINATE PLANE --><line x1="0" y1="0" x2="360" y2="0" stroke="#000000" stroke-width="2px"/><line x1="0" y1="15" x2="360" y2="15" stroke="#BBBBBB"/><line x1="0" y1="30" x2="360" y2="30" stroke="#BBBBBB"/><line x1="0" y1="45" x2="360" y2="45" stroke="#BBBBBB"/><line x1="0" y1="60" x2="360" y2="60" stroke="#BBBBBB"/><line x1="0" y1="75" x2="360" y2="75" stroke="#BBBBBB"/><line x1="0" y1="90" x2="360" y2="90" stroke="#BBBBBB"/><line x1="0" y1="105" x2="360" y2="105" stroke="#BBBBBB"/><line x1="0" y1="120" x2="360" y2="120" stroke="#BBBBBB"/><line x1="0" y1="135" x2="360" y2="135" stroke="#BBBBBB"/><line x1="0" y1="150" x2="360" y2="150" stroke="#BBBBBB"/><line x1="0" y1="165" x2="360" y2="165" stroke="#BBBBBB"/><line x1="0" y1="195" x2="360" y2="195" stroke="#BBBBBB"/><line x1="0" y1="210" x2="360" y2="210" stroke="#BBBBBB"/><line x1="0" y1="225" x2="360" y2="225" stroke="#BBBBBB"/><line x1="0" y1="240" x2="360" y2="240" stroke="#BBBBBB"/><line x1="0" y1="255" x2="360" y2="255" stroke="#BBBBBB"/><line x1="0" y1="270" x2="360" y2="270" stroke="#BBBBBB"/><line x1="0" y1="285" x2="360" y2="285" stroke="#BBBBBB"/><line x1="0" y1="300" x2="360" y2="300" stroke="#BBBBBB"/><line x1="0" y1="315" x2="360" y2="315" stroke="#BBBBBB"/><line x1="0" y1="330" x2="360" y2="330" stroke="#BBBBBB"/><line x1="0" y1="345" x2="360" y2="345" stroke="#BBBBBB"/><line x1="0" y1="360" x2="360" y2="360" stroke="#000000"/><line x1="0.75" y1="0" x2="0.75" y2="360" stroke="#000000"/><line x1="15" y1="0" x2="15" y2="360" stroke="#BBBBBB"/><line x1="30" y1="0" x2="30" y2="360" stroke="#BBBBBB"/><line x1="45" y1="0" x2="45" y2="360" stroke="#BBBBBB"/><line x1="60" y1="0" x2="60" y2="360" stroke="#BBBBBB"/><line x1="75" y1="0" x2="75" y2="360" stroke="#BBBBBB"/><line x1="90" y1="0" x2="90" y2="360" stroke="#BBBBBB"/><line x1="105" y1="0" x2="105" y2="360" stroke="#BBBBBB"/><line x1="120" y1="0" x2="120" y2="360" stroke="#BBBBBB"/><line x1="135" y1="0" x2="135" y2="360" stroke="#BBBBBB"/><line x1="150" y1="0" x2="150" y2="360" stroke="#BBBBBB"/><line x1="165" y1="0" x2="165" y2="360" stroke="#BBBBBB"/><line x1="195" y1="0" x2="195" y2="360" stroke="#BBBBBB"/><line x1="210" y1="0" x2="210" y2="360" stroke="#BBBBBB"/><line x1="225" y1="0" x2="225" y2="360" stroke="#BBBBBB"/><line x1="240" y1="0" x2="240" y2="360" stroke="#BBBBBB"/><line x1="255" y1="0" x2="255" y2="360" stroke="#BBBBBB"/><line x1="270" y1="0" x2="270" y2="360" stroke="#BBBBBB"/><line x1="285" y1="0" x2="285" y2="360" stroke="#BBBBBB"/><line x1="300" y1="0" x2="300" y2="360" stroke="#BBBBBB"/><line x1="315" y1="0" x2="315" y2="360" stroke="#BBBBBB"/><line x1="330" y1="0" x2="330" y2="360" stroke="#BBBBBB"/><line x1="345" y1="0" x2="345" y2="360" stroke="#BBBBBB"/><line x1="360" y1="0" x2="360" y2="360" stroke="#000000"/><line x1="180" y1="0" x2="180" y2="360" stroke-width="3" stroke="#000000"/><line x1="0" y1="180" x2="360" y2="180" stroke-width="3" stroke="#000000"/><text x="168" y="10" fill="black">y</text><text x="349" y="176" fill="black">x</text>');
-
-	  //addObject('</svg>');
-
+	  addObject('<!-- COORDINATE PLANE -->');
+	  addObject('<!-- Grid -->' );
+	  for( var i=-11; i<12; i++ )
+	  {
+	      addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(i) + '" x2="' + convertX(12) + '" y2="' + convertY(i) + '" stroke="#BBBBBB" stroke-width="1px"/>' );
+	      addObject( '<line x1="' + convertX(i) + '" y1="' + convertY(-12) + '" x2="' + convertX(i) + '" y2="' + convertY(12) + '" stroke="#BBBBBB" stroke-width="1px"/>' );
+	  }
+	  addObject( '<!-- Borders -->' );
+	  addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(11.95) + '" x2="' + convertX(12) + '" y2="' + convertY(11.95) + '" stroke="#000000" stroke-width="2px"/>'); /* north */
+	  addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(-12) + '" x2="' + convertX(12) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* south */
+	  addObject( '<line x1="' + convertX(12) + '" y1="' + convertY(11.95) + '" x2="' + convertX(12) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* east */
+	  addObject( '<line x1="' + convertX(-11.95) + '" y1="' + convertY(11.95) + '" x2="' + convertX(-11.95) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* west */
+	  addObject( '<!-- x and y labels -->');
+	  addObject( '<text x="' + convertX(-0.75) + '" y="' + convertY(11.25) + '" fill="black">y</text>' );
+	  addObject( '<text x="' + convertX(11.25) + '" y="' + convertY(0.4) + '" fill="black">x</text>' );
+	  addObject( '<!-- x and y axes -->');
+	  addObject( '<line x1="' + convertX(-11.95) + '" y1="' + convertY(0) + '" x2="' + convertX(12) + '" y2="' + convertY(0) + '" stroke-width="3" stroke="#000000"/>' );
+	  addObject( '<line x1="' + convertX(0) + '" y1="' + convertY(11.95) + '" x2="' + convertX(0) + '" y2="' + convertY(-12) + '" stroke-width="3" stroke="#000000"/>' );
+	  addObject( '<!-- The Function and Riemann Sum Rectangles -->');
       }
       
       function onload()
@@ -128,8 +145,8 @@
 	  text=text.replace(/ln/g, "Math.log" );
 	  text=text.replace(/sqrt/g, "Math.sqrt" );
 
-	  text=text.replace(/-x/g, "-1*x" );	  
-
+	  text=text.replace(/-x/g, "-1*x" );
+	  text=text.replace(/-e/g, "-1*e" );
 	  text=text.replace(/0x/g, "0*x" );	  
 	  text=text.replace(/1x/g, "1*x" );
 	  text=text.replace(/2x/g, "2*x" );
@@ -152,6 +169,7 @@
 	  text=text.replace(/8Math/g, "8*Math" );
 	  text=text.replace(/9Math/g, "9*Math" );
 
+	  text=text.replace(/\)Math/g, ")*Math" );
 	  text=text.replace(/xMath/g, "x*Math" );
 	  text=text.replace(/Math.EMath/g, "Math.E*Math" );
 	  
@@ -164,7 +182,7 @@
 	      text=text.replace( 'e', 'Math.E' );
 	      text=text.replace( 'pi','Math.PI');
 	  }
-
+	  logMsg( "[function after preprocessing: " + text + "]");
 	  return(text);
       }
 
@@ -175,7 +193,6 @@
 	  try
 	  {
 	      y=eval(f_at_x);
-	      //y=Math.round(y*10000000000)/10000000000;
 	  }
 	  catch (error)
 	  {
@@ -202,8 +219,6 @@
 	      {
 		  y1=eval(fn_y1);
 		  y2=eval(fn_y2);
-		  //y1=Math.round(y1*10000000000)/10000000000;
-		  //y2=Math.round(y2*10000000000)/10000000000;
 
 		  if( ((y1<=15) && (y1>=-15)) && ((y2<=15) && (y2>=-15)) )
 		  {
@@ -276,30 +291,15 @@
 	      var x2=convertX(Number(b1)+Number(i)*Number(w));
 	      var y1=convertY(0);
 	      
-	      /* find the top left corner, width and height */
-	      if( x1 < x2 )
-	      {
-		 // addObject( "<rect x='" + x1 + "' y='" + h + "' width='" + 15*w + "' height='" + h + "' />" );
-	      }
-	      else
-	      {
-		 // addObject( "<rect x='" + x2 + "' y='" + h + "' width='" + 15*w + "' height='" + h + "' />" );
+	      TotalArea += evaluate_function( usable_expression, Number( (Number(b1)+Number(lcr)*Number(w)+(i)*w)))*w;
+	      logMsg( "Partial Area: " + evaluate_function( usable_expression, Number( (Number(b1)+Number(lcr)*Number(w)+(i)*w)))*w );
 
-	      }
-
-	      TotalArea+=evaluate_function( usable_expression, Number( (Number(b1)+Number(lcr)*Number(w)+(i)*w)))*w;
-
-	      addObject( "<polygon points='" + x1 + "," + y1 + " " + x2 + "," + y1 + " " + x2 + "," + h + " " + x1 + "," + h + "' stroke='#000000' fill-opacity='50%'/>" );
-	      	      
-	      //addObject( "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y1 + "' stroke='#000000' stroke-width='2px'/>" );
-	      //addObject( "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x1 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
-	      //addObject( "<line x1='" + x2 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
-	      //addObject( "<line x1='" + x1 + "' y1='" + h + "' x2='" + x2 + "' y2='" + h + "' stroke='#000000' stroke-width='2px'/>");
+	      addObject( "<polygon points='" + x1 + "," + y1 + " " + x2 + "," + y1 + " " + x2 + "," + h + " " + x1 + "," + h + "' stroke='#000000' fill-opacity='33%'/>" );
 	  }
 	  logMsg( "Total Area: " + TotalArea );
 
+	  form1.svg_source_code.value = svg_array;
 	  
-
       }
       </script>
   </head>
@@ -308,8 +308,8 @@
     <form name='form1' action='' method='GET'>
       <p><center><font size=+3>SVG Riemann Sum Generator</font></center></p>
       <p><center>By: <a target=_blank href="http://mkpelleg.freeshell.org">Michael K. Pellegrino</a></center></p>
-      <p><center>Version 2.1 - 2022 02 01</center></p>
-      <p><input type='button' onclick='javascript:toggle("instructions");' value='Hide/Show Instructions'></p>      
+      <p><center>Version 2.2 - 2022 02 02</center></p>
+      <p><input type='button' onclick='javascript:toggle("instructions");' value='Hide/Show Instructions'><input type='button' onclick='javascript:toggle("svg_source_code");' value='Hide/Show SVG Source Code'></p>      
       <ol id="instructions">
 	<li>Enter what the function (f(x)) is.</li>
 	<li>Enter how many rectangle's you'd like.</li>
@@ -324,6 +324,7 @@
 	<p><input type='button' onclick='javascript:createRiemannSum();' value='Create Riemann Sum'></p>
 	<p id="svg0"></p>
 	<p id="errorlog"></p>
+	<p id="svg_source_code"><textarea cols=80 rows=20 name='svg_source_code'></textarea></p>
     </form>
     
     </center>
