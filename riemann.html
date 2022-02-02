@@ -298,7 +298,11 @@
 	  }
 	  logMsg( "Total Area: " + TotalArea );
 
-	  form1.svg_source_code.value = svg_array;
+	  form1.svg_source_code.value = 0;
+	  for( var i=0; i<svg_array.length; i++ )
+	  {
+	      form1.svg_source_code.value += svg_array[i];
+	  }
 	  
       }
       </script>
