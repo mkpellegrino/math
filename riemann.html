@@ -52,6 +52,7 @@
       {
 	  svg_array=[];
 	  svg_array[0]=" ";
+	  form1.svg_source_code.value = "";
 	  document.getElementById("errorlog").innerHTML = "";
 
 	  
@@ -298,7 +299,6 @@
 	  }
 	  logMsg( "Total Area: " + TotalArea );
 
-	  form1.svg_source_code.value = 0;
 	  for( var i=0; i<svg_array.length; i++ )
 	  {
 	      form1.svg_source_code.value += svg_array[i];
