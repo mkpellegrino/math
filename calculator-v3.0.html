@@ -1,0 +1,651 @@
+<html>
+  <head><title>A Calculator for Moodle - By: Mr. Pellegrino</title>
+    <script>
+
+      var svg_array=[];
+      var other_par_count=0; /* parentheses count */
+      
+      function logMsg( text )
+      {
+	  document.getElementById("errorlog").innerHTML += "<font color='#000000'>" + text + "</font><br>"; // no error
+      }
+      
+      function convertX(X)
+      {
+	  return Math.round(100*(Number(15)*Number(X)+Number(180)))/100;
+      }
+
+      function convertY(Y)
+      {
+	  return Math.round(100*(Number(-15)*Number(Y)+Number(180)))/100;
+      }
+
+      function addObject(text)
+      {
+	  svg_array[svg_array.length-1]=text;
+	  svg_array[svg_array.length]="</svg>";
+	  var svg_text=""; 
+	  for( var i=0; i<svg_array.length; i++ )
+	  {
+	      svg_text+=svg_array[i];
+	  }
+	  document.getElementById("svg0").innerHTML=svg_text;
+      }
+
+      /* Hide/Show an HTML Object with ID=text */
+      function toggle( text )
+      {
+	  if (document.getElementById(text).style.display == "block")
+	  {
+	      document.getElementById(text).style.display = "none";
+	  }
+	  else
+	  {
+	      document.getElementById(text).style.display = "block";
+	  }
+      }
+
+       function resetAll()
+      {
+	  svg_array=[];
+	  svg_array[0]=" ";
+	  form1.svg_source_code.value = "";
+	  document.getElementById("errorlog").innerHTML = "";
+
+	  
+	  document.getElementById("svg_source_code").style.display = "none";
+
+	  /* configure the coordinate plane */
+	  addObject("<!-- SVG IMAGE HEADER --><svg width='361px' height='361px' version='1.1'><defs></defs>");
+	  addObject('<!-- COORDINATE PLANE -->');
+	  addObject('<!-- Grid -->' );
+	  for( var i=-11; i<12; i++ )
+	  {
+	      addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(i) + '" x2="' + convertX(12) + '" y2="' + convertY(i) + '" stroke="#BBBBBB" stroke-width="1px"/>' );
+	      addObject( '<line x1="' + convertX(i) + '" y1="' + convertY(-12) + '" x2="' + convertX(i) + '" y2="' + convertY(12) + '" stroke="#BBBBBB" stroke-width="1px"/>' );
+	  }
+	  addObject( '<!-- Borders -->' );
+	  addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(11.95) + '" x2="' + convertX(12) + '" y2="' + convertY(11.95) + '" stroke="#000000" stroke-width="2px"/>'); /* north */
+	  addObject( '<line x1="' + convertX(-12) + '" y1="' + convertY(-12) + '" x2="' + convertX(12) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* south */
+	  addObject( '<line x1="' + convertX(12) + '" y1="' + convertY(11.95) + '" x2="' + convertX(12) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* east */
+	  addObject( '<line x1="' + convertX(-11.95) + '" y1="' + convertY(11.95) + '" x2="' + convertX(-11.95) + '" y2="' + convertY(-12) + '" stroke="#000000" stroke-width="2px"/>'); /* west */
+	  addObject( '<!-- x and y labels -->');
+	  addObject( '<text x="' + convertX(-0.75) + '" y="' + convertY(11.25) + '" fill="black">y</text>' );
+	  addObject( '<text x="' + convertX(11.25) + '" y="' + convertY(0.4) + '" fill="black">x</text>' );
+	  addObject( '<!-- x and y axes -->');
+	  addObject( '<line x1="' + convertX(-11.95) + '" y1="' + convertY(0) + '" x2="' + convertX(12) + '" y2="' + convertY(0) + '" stroke-width="3" stroke="#000000"/>' );
+	  addObject( '<line x1="' + convertX(0) + '" y1="' + convertY(11.95) + '" x2="' + convertX(0) + '" y2="' + convertY(-12) + '" stroke-width="3" stroke="#000000"/>' );
+	  addObject( '<!-- The Function and Riemann Sum Rectangles -->');
+      }
+      
+      function onload()
+      {
+	  resetAll();
+	  return;
+      }
+
+      /* This is the Parenthese count - in order to eval, it must be naught */
+      function parCount(text)
+      {
+	  var other_par_count=0;
+	  for( L=0; L<text.length; L++ )
+	  {
+	      if( text.charAt(L) == '(' )
+	      {
+		  other_par_count++;
+	      }
+	      else if( text.charAt(L) == ')' )
+	      {
+		  other_par_count--;
+	      }
+	  }
+	  return other_par_count;
+      }
+      
+     function convertExpression(text)
+      {
+	  
+	  text=text.replace(/abs/g, "Math.abs" );
+	  text=text.replace(/atan/g, "Q" );
+	  text=text.replace(/acos/g, "W" );
+	  text=text.replace(/asin/g, "R" );
+
+	  str=str.replace(/atan/g, "Q" );
+	  str=str.replace(/acos/g, "W" );
+	  str=str.replace(/asin/g, "R" );
+
+	  
+	  for( l=0; l<str.length; l++ )
+	  {
+	      str=str.replace('^', '**' );
+	      str=str.replace('sin(', 'S' );
+	      str=str.replace('cos(', 'C' );
+	      str=str.replace('tan(', 'T' );
+	  }
+	  for( l=0; l<str.length; l++ )
+	  {
+	      if( form1.mode.value=='Dg' )
+	      {
+		  str=str.replace('S', 'Math.sin(((pi)/180)*');
+		  str=str.replace('C', 'Math.cos(((pi)/180)*');
+		  str=str.replace('T', 'Math.tan(((pi)/180)*');
+	      }
+	      else
+	      {
+		  str=str.replace('S', 'Math.sin(');
+		  str=str.replace('C', 'Math.cos(');
+		  str=str.replace('T', 'Math.tan(');
+	      }
+
+	  }
+
+	  if( form1.mode.value=='Dg' )
+	  {
+	      str=str.replace(/Q/g, '(180/pi)*Math.atan');
+	      str=str.replace(/W/g, '(180/pi)*Math.acos');
+	      str=str.replace(/R/g, '(180/pi)*Math.asin');
+	  }
+	  else
+	  {
+	      str=str.replace(/Q/g, 'Math.atan');
+	      str=str.replace(/W/g, 'Math.acos');
+	      str=str.replace(/R/g, 'Math.asin');
+	  }
+
+
+
+	  
+	  for( l=0; l<text.length; l++ )
+	  {
+	      text=text.replace('^', '**' );
+	      text=text.replace('sin(', 'S' );
+	      text=text.replace('cos(', 'C' );
+	      text=text.replace('tan(', 'T' );
+	  }
+	  for( l=0; l<text.length; l++ )
+	  {
+	      text=text.replace('S', 'Math.sin(');
+	      text=text.replace('C', 'Math.cos(');
+	      text=text.replace('T', 'Math.tan(');
+	  }
+
+	  text=text.replace(/Q/g, 'Math.atan');
+	  text=text.replace(/W/g, 'Math.acos');
+	  text=text.replace(/R/g, 'Math.asin');
+
+	  text=text.replace(/xe/g, "x*e" );
+	  text=text.replace(/ex/g, "e*x" );
+	  
+	  
+	  text=text.replace(/pi/g, "Math.PI" );
+	  text=text.replace(/e/g, "Math.E" );
+	  // This log replacement is not correct
+	  // log(x*4)^2 should get turned into
+	  // ((1/Math.LN10)*Math.log(x*4))**2
+	  // NOT: (1/Math.LN10)*Math.log(x*4)**2
+	  text=text.replace(/log/g, "(1/Math.LN10)*Math.log" ); 
+	  text=text.replace(/ln/g, "Math.log" );
+	  text=text.replace(/sqrt/g, "Math.sqrt" );
+
+	  text=text.replace(/-x/g, "-1*x" );
+	  text=text.replace(/-e/g, "-1*e" );
+	  text=text.replace(/0x/g, "0*x" );	  
+	  text=text.replace(/1x/g, "1*x" );
+	  text=text.replace(/2x/g, "2*x" );
+	  text=text.replace(/3x/g, "3*x" );
+	  text=text.replace(/4x/g, "4*x" );
+	  text=text.replace(/5x/g, "5*x" );
+	  text=text.replace(/6x/g, "6*x" );
+	  text=text.replace(/7x/g, "7*x" );
+	  text=text.replace(/8x/g, "8*x" );
+	  text=text.replace(/9x/g, "9*x" );
+
+	  text=text.replace(/0Math/g, "0*Math" );	  
+	  text=text.replace(/1Math/g, "1*Math" );
+	  text=text.replace(/2Math/g, "2*Math" );
+	  text=text.replace(/3Math/g, "3*Math" );
+	  text=text.replace(/4Math/g, "4*Math" );
+	  text=text.replace(/5Math/g, "5*Math" );
+	  text=text.replace(/6Math/g, "6*Math" );
+	  text=text.replace(/7Math/g, "7*Math" );
+	  text=text.replace(/8Math/g, "8*Math" );
+	  text=text.replace(/9Math/g, "9*Math" );
+
+	  text=text.replace(/\)Math/g, ")*Math" );
+	  text=text.replace(/xMath/g, "x*Math" );
+	  text=text.replace(/Math.EMath/g, "Math.E*Math" );
+	  
+	  
+	  var l=text.length;
+	  
+	  for( L=0; L<l; L++ )
+	  {
+	      text=text.replace( '^', '**' );
+	      text=text.replace( 'e', 'Math.E' );
+	      text=text.replace( 'pi','Math.PI');
+	  }
+	  logMsg( "[function after preprocessing: " + text + "]");
+	  return(text);
+      }
+
+      function evaluate_function( f, x )
+      {
+	  var y=0;
+	  var f_at_x=f.replace( /x/g, "(" + x + ")" );
+	  try
+	  {
+	      y=eval(f_at_x);
+	  }
+	  catch (error)
+	  {
+	      
+	      logMsg( "[ERROR] Evaluation of " + f_at_x );
+	  }
+
+	  return y;
+      }
+      
+      function graph( fn )
+      {
+	  if( form1.functiontograph.value =='' )
+	  {
+	      alert( "You haven't defined a function!");
+	      return;
+	  }
+
+	  resetAll();
+	  logMsg("graph(" + fn + ");");
+	  var E;
+	  for( var i = -12; i<=12.08; i+=0.08 )
+	  {
+	      var x1=i;
+	      var y1;
+	      var x2=i+0.08;
+	      var y2;
+	      
+	      var fn_y1=fn.replace( /x/g, "(" + x1 + ")" );
+	      var fn_y2=fn.replace( /x/g, "(" + x2 + ")" );
+	      try
+	      {
+		  y1=eval(fn_y1);
+		  y2=eval(fn_y2);
+
+		  if( ((y1<=15) && (y1>=-15)) && ((y2<=15) && (y2>=-15)) )
+		  {
+		      addObject( "<line x1='" + convertX(x1) + "' y1='" + convertY(y1) + "' x2='" + convertX(x2) + "' y2='" + convertY(y2) + "' stroke='#FF0000' stroke-width='2px'/>" );
+		  }
+	      }
+	      catch (error)
+	      {
+		  logMsg( "Evaluation Error" );
+	      }
+	  }
+      }
+
+      function SendSourceToTextArea()
+      {
+	  for( var i=0; i<svg_array.length; i++ )
+	  {
+	      form1.svg_source_code.value += svg_array[i];
+	  }
+	  
+
+      }
+      var par_count=0;
+
+      // function parCount()
+      // {
+      // 	  par_count=0;
+      // 	  var str=form1.screen.value;
+      // 	  for( L=0; L<str.length; L++ )
+      // 	  {
+      // 	      if( str.charAt(L) == '(' )
+      // 	      {
+      // 		  par_count++;
+      // 	      }
+      // 	      else if( str.charAt(L) == ')' )
+      // 	      {
+      // 		  par_count--;
+      // 	      }
+      // 	  }
+      // }
+      function calculate()
+      {
+	  global_error_code=0;
+
+	  if(  parCount(form1.screen.value) != 0 )
+	  {
+	      alert( "() Mismatch -- cannot calculate");
+	      return;
+	  }
+
+	  str=str.replace(/atan/g, "Q" );
+	  str=str.replace(/acos/g, "W" );
+	  str=str.replace(/asin/g, "R" );
+
+	  
+	  for( l=0; l<str.length; l++ )
+	  {
+	      str=str.replace('^', '**' );
+	      str=str.replace('sin(', 'S' );
+	      str=str.replace('cos(', 'C' );
+	      str=str.replace('tan(', 'T' );
+	  }
+	  for( l=0; l<str.length; l++ )
+	  {
+	      if( form1.mode.value=='Dg' )
+	      {
+		  str=str.replace('S', 'Math.sin(((pi)/180)*');
+		  str=str.replace('C', 'Math.cos(((pi)/180)*');
+		  str=str.replace('T', 'Math.tan(((pi)/180)*');
+	      }
+	      else
+	      {
+		  str=str.replace('S', 'Math.sin(');
+		  str=str.replace('C', 'Math.cos(');
+		  str=str.replace('T', 'Math.tan(');
+	      }
+
+	  }
+
+	  if( form1.mode.value=='Dg' )
+	  {
+	      str=str.replace(/Q/g, '(180/pi)*Math.atan');
+	      str=str.replace(/W/g, '(180/pi)*Math.acos');
+	      str=str.replace(/R/g, '(180/pi)*Math.asin');
+	  }
+	  else
+	  {
+	      str=str.replace(/Q/g, 'Math.atan');
+	      str=str.replace(/W/g, 'Math.acos');
+	      str=str.replace(/R/g, 'Math.asin');
+	  }
+	  
+	  str=str.replace(/pi/g, "Math.PI" );
+	  str=str.replace(/e/g, "Math.E" );
+	  str=str.replace(/log/g, "(1/Math.LN10)*Math.log" );
+	  str=str.replace(/ln/g, "Math.log" );
+	  str=str.replace(/sqrt/g, "Math.sqrt" );
+	  var E;
+
+	  try {
+	      E=eval(str);
+	  } catch (error) {
+	      E=str;
+	      alert("ERROR: I don't understand ["+E+"]");
+	      global_error_code=1;
+	      return;
+	  }
+	  E=Math.round(E*10000000000)/10000000000;
+	  form1.tape.value+=form1.screen.value;
+	  form1.tape.value+=' = ';
+	  form1.tape.value+=E;
+	  form1.tape.value+='\n';
+	  form1.screen.value=E;
+	  document.getElementById("tape").scrollTop = document.getElementById("tape").scrollHeight;
+	  
+	  return;
+      }
+
+      function key(k)
+      {
+	  if( k=='=' )
+	  {
+	      if( par_count != 0 )
+	      {
+		  alert( "( ) Mismatch - Can't Calculate" );
+		  return;
+	      }
+
+	      if( form1.screen.value!='' )
+	      {
+		  calculate();
+		  if( global_error_code==1 )
+		  {
+		      return;
+		  }
+	      }
+	      else
+	      {
+		  form1.tape.value+='\n';
+	      }
+	  }
+	  else if( k=='inv' )
+	  {
+	      
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value="1/("+form1.screen.value+")";
+	      }
+	      //return;
+	  }
+	  else if( k=='BK' )
+	  {
+	      // Backspace
+	      
+	      form1.screen.value = form1.screen.value.substr(0, form1.screen.value.length-1);
+
+	  }
+	  else if( k=='C' )
+	  {
+	      form1.screen.value='';
+	      par_count=0;
+	  }
+	  else if( k=='tox' )
+	  {
+	      x=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> x\n';
+	  }
+	  else if( k=='toy' )
+	  {
+	      y=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> y\n';
+	  }
+	  else if( k=='toz' )
+	  {
+	      z=form1.screen.value;
+	      form1.tape.value+=form1.screen.value;
+	      form1.tape.value+='-> z\n';
+	  }
+	  else if( k=='fromx' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=x;
+	      }
+	      else
+	      {
+		  form1.screen.value+=x;
+	      }
+	  }
+	  else if( k=='fromy' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=y;
+	      }
+	      else
+	      {
+		  form1.screen.value+=y;
+	      }
+	  }
+	  else if( k=='fromz' )
+	  {
+	      if( global_first_key==1 )
+	      {
+		  form1.screen.value=z;
+	      }
+	      else
+	      {
+		  form1.screen.value+=z;
+	      }
+	  }
+	  else if( k=='^' )
+	  {
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value+='^';
+	      }
+	  }
+	  else if( k=='log' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='log(';
+	  }
+	  else if( k=='asin' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='asin(';
+	  }
+	  else if( k=='acos' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='acos(';
+	  }
+	  else if( k=='atan' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='atan(';
+	  }
+	  else if( k=='sin' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='sin(';
+	  }
+	  else if( k=='cos' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='cos(';
+	  }
+	  else if( k=='tan' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='tan(';
+	  }
+	  else if( k=='pi' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='(pi)';
+	  }
+	  else if( k=='RND' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      
+	      form1.screen.value+=Math.round( 100000*Math.random() )/100000;
+	      
+	  }
+	  else if( k=='sqrt' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='sqrt(';
+	  }
+	  else if( k=='M' )
+	  {
+	      if( form1.mode.value=='Dg' )
+	      {
+		  form1.mode.value='Rd';
+	      }
+	      else
+	      {
+		  form1.mode.value='Dg';
+	      }
+	  }
+	  else if( k=='ln' )
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+='ln(';
+	  }
+	  else if( (k=='+') || (k=='*') || (k=='/') || (k=='-') )
+	  {
+	      if( form1.screen.value != '' )
+	      {
+		  form1.screen.value+=k;
+	      }
+	  }
+	  else
+	  {
+	      if( global_first_key == 1 )
+	      {
+		  form1.screen.value='';
+	      }
+	      form1.screen.value+=k;
+	  }
+	  
+	  if( k=='=' || k=='tox' || k=='toy' || k=='toz' )
+	  {
+	      global_first_key=1;
+	  }
+	  else
+	  {
+	      global_first_key=0;
+	  }
+	  parCount(form1.screen.value);
+      }
+      
+    </script>
+  </head>
+  
+  <body onload="onload();">
+    <center>
+    <form name='form1' action='' method='GET'>
+      <table border=1>
+	<tr><td colspan=6 align=-center><textarea name="screen" rows="1" cols="20"></textarea><input type='button' onClick="javascript:key('BK');" value="BKSPC"></td><td rowspan=8><textarea id='tape' name="tape" rows="15" cols="20"></textarea></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('C');" value='C'></td><td align=center><input type='button' onClick="javascript:key('(');" value='('></td><td align=center><input type='button' onClick="javascript:key(')');" value=')'></td><td align=center><input type='button' onClick="javascript:key('pi');" value='pi'></td><td align=center><input type='button' onClick="javascript:key('e^');" value='e^x'></td><td align=center><input type='button' onClick="javascript:key('tox');" value='&rarr; x'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('sin');" value='sin'></td><td align=center><input type='button' onClick="javascript:key('cos');" value='cos'></td><td align=center><input type='button' onClick="javascript:key('tan');" value='tan'></td><td align=center><input type='button' onClick="javascript:key('/');" value='/'></td><td align=center><input type='button' onClick="javascript:key('ln');" value='ln'></td><td align=center><input type='button' onClick="javascript:key('toy');" value='&rarr; y'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('^');" value='^'></td><td align=center><input type='button' onClick="javascript:key('sqrt');" value='sqrt'></td><td align=center><input type='button' onClick="javascript:key('inv');" value='inv'></td><td align=center><input type='button' onClick="javascript:key('*');" value='x'></td><td align=center><input type='button' onClick="javascript:key('log');" value='log'></td><td align=center><input type='button' onClick="javascript:key('toz');" value='&rarr; z'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('7');" value='7'></td><td align=center><input type='button' onClick="javascript:key('8');" value='8'></td><td align=center><input type='button' onClick="javascript:key('9')" value='9'></td><td align=center><input type='button' onClick="javascript:key('-');" value='-'></td><td align=center><input type='button' onClick="javascript:key('asin');" value='asin'></td><td align=center><input type='button' onClick="javascript:key('fromx');" value='&larr; x'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('4');" value='4'></td><td align=center><input type='button' onClick="javascript:key('5');" value='5'></td><td align=center><input type='button' onClick="javascript:key('6')" value='6'></td><td align=center><input type='button' onClick="javascript:key('+');" value='+'></td><td align=center><input type='button' onClick="javascript:key('acos');" value='acos'></td><td align=center><input type='button' onClick="javascript:key('fromy');" value='&larr; y'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('1');" value='1'></td><td align=center><input type='button' onClick="javascript:key('2');" value='2'></td><td align=center><input type='button' onClick="javascript:key('3');" value='3'></td><td align=center><input type='button' onClick="javascript:key('=');" value='='></td><td align=center><input type='button' onClick="javascript:key('atan');" value='atan'></td><td align=center><input type='button' onClick="javascript:key('fromz');" value='&larr; z'></td></tr>
+	<tr><td align=center><input type='button' onClick="javascript:key('M');" value='M'></td><td align=center><input type='button' onClick="javascript:key(0);" value='0'></td><td align=center><input type='button' onClick="javascript:key('.');" value='.'></td><td align=center><input type='text' id='mode' name='mode' value='Dg' size=1></td><td align=center><input type='button' onClick="javascript:key('RND');" value='Rand'></td><td align=center><input type='button' onClick="javascript:form1.tape.value+='\n';" value='CR/LF'></td></tr>
+	</table>
+
+      <br>
+      <input type='button' onClick="javascript:graph(form1.functiontograph.value);" value='graph'><input type='button' onClick="javascript:SendSourceToTextArea();" value='source'><pre>y=<input type='text' id='functiontograph' name='functiontograph'><input type='text' id='functionresolution' name='functionresolution' value='10' size='3'> (10=high 1=low)</pre>
+
+
+      <p id="svg0"></p>
+      <p id="errorlog"></p>
+      <p id="svg_source_code"><textarea cols=80 rows=20 name='svg_source_code'></textarea></p>
+      
+    </form>
+    </center>
+    <p><center><font size=-2><i>A Simple Graphing Calculator Coded By: Mr. Pellegrino - Last Updated on: 2017 10 17</i></font></center></p>
+    
+  </body>
+</html>
+
